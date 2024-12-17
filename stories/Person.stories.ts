@@ -1,4 +1,3 @@
-import Vuex from 'vuex';
 import Person from '../components/molecules/Person.vue';
 
 const board = [
@@ -61,11 +60,6 @@ export const Pengin = () => ({
     board,
     wrapStyle,
   }),
-  store: new Vuex.Store({
-    actions: {
-      moveFocus: () => {},
-    },
-  }),
 });
 
 export const Enemy1 = () => ({
@@ -76,11 +70,6 @@ export const Enemy1 = () => ({
     board,
     wrapStyle,
   }),
-  store: new Vuex.Store({
-    actions: {
-      moveFocus: () => {},
-    },
-  }),
 });
 
 export const Enemy2 = () => ({
@@ -90,10 +79,5 @@ export const Enemy2 = () => ({
     person: getPerson('enemy2'),
     board,
     wrapStyle,
-  }),
-  store: new Vuex.Store({
-    actions: {
-      moveFocus: () => {},
-    },
   }),
 });
