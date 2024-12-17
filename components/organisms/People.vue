@@ -1,32 +1,18 @@
 <template>
   <div id="people" class="people">
     <Person
-      v-for="person in people"
+      v-for="person in store.state.people"
       :key="person.id"
       :person="person"
-      :board="board"
+      :board="store.state.board"
       :class="person.class"
     />
   </div>
 </template>
 
-<script>
-import { defineComponent, computed, useStore } from '@nuxtjs/composition-api';
+<script setup lang="ts">
+import { useStore } from '~/composables/store';
 import Person from '../molecules/Person.vue';
 
-export default defineComponent({
-  components: {
-    Person,
-  },
-  setup() {
-    const store = useStore();
-    const people = computed(() => store.state.people);
-    const board = computed(() => store.state.board);
-
-    return {
-      people,
-      board,
-    };
-  },
-});
+const store = useStore();
 </script>

@@ -1,8 +1,8 @@
 <template>
-  <div id="board" :class="`board turn${turn} scene_${scene}`">
+  <div id="board" :class="`board turn${store.state.turn} scene_${store.state.scene}`">
     <ul :style="boardStyle">
       <Square
-        v-for="square in board"
+        v-for="square in store.state.board"
         :key="square.id"
         :square="square"
         :style="square.style"
@@ -11,29 +11,13 @@
   </div>
 </template>
 
-<script>
-import { defineComponent, computed, useStore } from '@nuxtjs/composition-api';
+<script setup lang="ts">
+import { useStore } from '~/composables/store';
+import type { HtmlHTMLAttributes } from 'vue';
 import Square from '../molecules/Square.vue';
 
-export default defineComponent({
-  components: {
-    Square,
-  },
-  setup() {
-    const store = useStore();
-    const board = computed(() => store.state.board);
-    const boardStyle = computed(() => store.state.boardStyle);
-    const turn = computed(() => store.state.turn);
-    const scene = computed(() => store.state.scene);
-
-    return {
-      board,
-      boardStyle,
-      turn,
-      scene,
-    };
-  },
-});
+const store = useStore();
+const boardStyle = store.state.boardStyle as HtmlHTMLAttributes['style'];
 </script>
 
 <style scoped lang="scss">

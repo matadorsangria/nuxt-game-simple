@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isAuth">
+  <div>
     <div class="stage">
       <Board />
       <People />
@@ -11,15 +11,12 @@
             v-for="level in levels"
             :key="level"
             :level="level"
-            @defaultOverlayHide="defaultOverlayHide"
+            @default-overlay-hide="defaultOverlayHide"
           />
         </p>
-        <p class="sound-alert">
-          Sound will be played, so pay attention to volume.
+        <p class="message">
+          Let's Play!
         </p>
-        <v-btn @click="firebaseSignOut">
-          Sign Out
-        </v-btn>
       </div>
     </div>
     <div class="overlay restart">
@@ -32,66 +29,31 @@
       </div>
     </div>
   </div>
-  <div v-else>
-    <div id="firebaseui-auth-container" />
-  </div>
 </template>
 
-<script lang="ts">
-import { defineComponent, ref, useStore } from '@nuxtjs/composition-api';
-import 'firebaseui/dist/firebaseui.css';
+<script setup lang="ts">
+import { useStore } from '~/composables/store';
 import Board from '~/components/organisms/Board.vue';
 import People from '~/components/organisms/People.vue';
 import StartButton from '~/components/molecules/StartButton.vue';
 
-export default defineComponent({
-  components: {
-    Board,
-    People,
-    StartButton,
-  },
-  setup() {
-    const store = useStore();
-    const isAuth = ref(false);
-    const defaultOverlayVisible = ref(true);
-    const defaultOverlayHide = () => {
-      defaultOverlayVisible.value = false;
-    };
-    const reload = () => {
-      location.reload();
-    };
-    const levels = store.getters.levels;
-    const firebaseSignOut = () => {
-      store.dispatch('firebaseSignOut');
-    };
+const store = useStore();
+const defaultOverlayVisible = ref(true);
+const defaultOverlayHide = () => {
+  defaultOverlayVisible.value = false;
+};
+const reload = () => {
+  location.reload();
+};
+const levels = store.levels;
 
-    store.dispatch('firebaseSignIn').then((user) => {
-      if (user !== null) {
-        isAuth.value = true;
-        store.dispatch('setUserId', user.uid);
-        store.dispatch('setBoard');
-      } else {
-        isAuth.value = false;
-        store.dispatch('showLoginForm');
-      }
-    });
-
-    return {
-      isAuth,
-      defaultOverlayVisible,
-      defaultOverlayHide,
-      reload,
-      levels,
-      firebaseSignOut,
-    };
-  },
-});
+store.setBoard();
 </script>
 
 <style scoped lang="scss">
 .stage {
   position: relative;
-  background: url(~assets/images/burned.gif) no-repeat 0 -5000px;
+  background: url(~/assets/images/burned.gif) no-repeat 0 -5000px;
 
   @media screen and (max-width: 640px) {
     transform: scale(0.4);
@@ -118,7 +80,7 @@ export default defineComponent({
   button {
     margin: 0 10px;
   }
-  .sound-alert {
+  .message {
     padding: 20px 0 30px;
     font-family: 'Avenir', sans-serif;
   }

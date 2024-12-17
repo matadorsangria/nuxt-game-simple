@@ -4,36 +4,30 @@
   </v-btn>
 </template>
 
-<script lang="ts">
-import { Level } from 'original';
-import { defineComponent, useStore, PropType } from '@nuxtjs/composition-api';
+<script setup lang="ts">
+import { useStore } from '~/composables/store';
+import type { Level } from 'original';
 
-export default defineComponent({
-  props: {
-    level: {
-      type: String as PropType<Level>,
-      required: true,
-    },
-  },
-  setup(_, context) {
-    const store = useStore();
+defineProps<{
+  level: Level,
+}>();
+const emits = defineEmits<{
+  (e: 'defaultOverlayHide'): void,
+}>()
 
-    const colorObj = {
-      easy: 'green',
-      normal: 'yellow',
-      hard: 'red',
-    };
+const store = useStore();
 
-    const onClick = (level: Level) => {
-      context.emit('defaultOverlayHide');
-      store.dispatch('sound', 'bgm');
-      store.dispatch('setPeople', level);
-    };
+const colorObj = {
+  easy: 'green',
+  normal: 'yellow',
+  hard: 'red',
+};
 
-    return {
-      colorObj,
-      onClick,
-    };
-  },
-});
+const onClick = (level: Level) => {
+  emits('defaultOverlayHide');
+  store.setPeople(level);
+  setTimeout(() => {
+    store.setPeople(level);
+  }, 1000);
+};
 </script>

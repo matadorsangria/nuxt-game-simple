@@ -1,9 +1,3 @@
-declare global {
-  interface Window {
-    webkitAudioContext: AudioContext;
-  }
-}
-
 export type AvailableArr = [[number, number, string]?];
 export type AvailableObj = {
   [key: string]: {
@@ -70,7 +64,7 @@ export type Board = Square[];
 export interface State {
   userId?: string;
   board: Board;
-  boardStyle: Object;
+  boardStyle: object;
   people: People;
   currentPerson: CurrentPerson;
   turn: number;
@@ -80,6 +74,6 @@ export interface State {
 }
 
 export interface ActionContext {
-  commit: (name: string, payload?: Object) => void;
+  commit: (name: string, payload?: object | string) => void;
   state: State;
 }

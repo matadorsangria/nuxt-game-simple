@@ -40,76 +40,53 @@
   </article>
 </template>
 
-<script lang="ts">
-import { Person, Board } from 'original';
-import {
-  defineComponent,
-  ref,
-  reactive,
-  watch,
-  useStore,
-  PropType,
-} from '@nuxtjs/composition-api';
+<script setup lang="ts">
+import { useStore } from '~/composables/store';
+import type { Person, Board } from 'original';
 
-export default defineComponent({
-  props: {
-    person: {
-      type: Object as PropType<Person>,
-      required: true,
-    },
-    board: {
-      type: Array as PropType<Board>,
-      required: true,
-    },
-  },
-  setup(props) {
-    const store = useStore();
-    const isHover = ref(false);
-    const calcPosition = (pos: number) => {
-      const squareWidth = props.board[0].width;
-      return (
-        pos * squareWidth - (squareWidth + props.person.width! - 1) / 2 + 'px'
-      );
-    };
+const props = defineProps<{
+  person: Person,
+  board: Board,
+}>();
 
-    const styleArticle = reactive({
-      left: calcPosition(props.person.x),
-      top: calcPosition(props.person.y),
-    });
+const store = useStore();
+const isHover = ref(false);
+const calcPosition = (pos: number) => {
+  const squareWidth = props.board[0].width;
+  return (
+    pos * squareWidth - (squareWidth + props.person.width! - 1) / 2 + 'px'
+  );
+};
 
-    const styleP = {
-      width: props.person.width + 'px',
-      height: props.person.width + 'px',
-      transform: `rotateY(${props.person.direction === 'right' ? 0 : 180}deg)`,
-    };
-
-    const styleIndicator = {
-      width: (props.person.hp / props.person!.maxhp!) * 100 + '%',
-      backgroundColor:
-        props.person.hp / props.person!.maxhp! > 0.3 ? 'lime' : 'red',
-    };
-
-    if (props.person.id === 1) {
-      store.dispatch('moveFocus', props.person);
-    }
-
-    watch(
-      () => [props.person.x, props.person.y],
-      (newVal) => {
-        const [x, y] = newVal;
-        styleArticle.left = calcPosition(x);
-        styleArticle.top = calcPosition(y);
-      }
-    );
-
-    return {
-      isHover,
-      styleArticle,
-      styleP,
-      styleIndicator,
-    };
-  },
+const styleArticle = reactive({
+  left: calcPosition(props.person.x),
+  top: calcPosition(props.person.y),
 });
+
+const styleP = {
+  width: props.person.width + 'px',
+  height: props.person.width + 'px',
+  transform: `rotateY(${props.person.direction === 'right' ? 0 : 180}deg)`,
+};
+
+const styleIndicator = computed(() => ({
+  width: (props.person.hp / props.person!.maxhp!) * 100 + '%',
+  backgroundColor:
+    props.person.hp / props.person!.maxhp! > 0.3 ? 'lime' : 'red',
+}));
+
+if (props.person.id === 1) {
+  store.moveFocus(props.person);
+}
+
+watch(
+  () => [props.person.x, props.person.y],
+  (newVal) => {
+    const [x, y] = newVal;
+    styleArticle.left = calcPosition(x);
+    styleArticle.top = calcPosition(y);
+  }
+);
 </script>
 
 <style scoped lang="scss">
@@ -133,16 +110,16 @@ article {
       background-repeat: no-repeat;
     }
     &.pengin span {
-      background-image: url(~assets/images/pengin.png);
+      background-image: url(~/assets/images/pengin.png);
     }
     &.enemy1 span {
-      background-image: url(~assets/images/enemy1.png);
+      background-image: url(~/assets/images/enemy1.png);
     }
     &.enemy2 span {
-      background-image: url(~assets/images/enemy2.png);
+      background-image: url(~/assets/images/enemy2.png);
     }
     &.enemy3 span {
-      background-image: url(~assets/images/enemy3.png);
+      background-image: url(~/assets/images/enemy3.png);
     }
   }
 
@@ -166,7 +143,7 @@ article {
       top: -30px;
       width: 160px;
       height: 160px;
-      background: url(~assets/images/burned.gif) no-repeat 0 0;
+      background: url(~/assets/images/burned.gif) no-repeat 0 0;
       background-size: 160px 160px;
       animation: burnP 1.6s linear;
     }

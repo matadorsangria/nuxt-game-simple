@@ -2,38 +2,21 @@
   <li :class="className" @click="onClick" />
 </template>
 
-<script lang="ts">
-import { Square } from 'original';
-import {
-  defineComponent,
-  ref,
-  watchEffect,
-  useStore,
-  PropType,
-} from '@nuxtjs/composition-api';
+<script setup lang="ts">
+import { useStore } from '~/composables/store';
+import type { Square } from 'original';
 
-export default defineComponent({
-  props: {
-    square: {
-      type: Object as PropType<Square>,
-      required: true,
-    },
-  },
-  setup(props) {
-    const store = useStore();
-    const className = ref(props.square.layer);
-    const onClick = () => {
-      store.dispatch('squareClick', props.square);
-    };
+const props = defineProps<{
+  square: Square,
+}>();
 
-    watchEffect(() => {
-      className.value = props.square.layer;
-    });
+const store = useStore();
+const className = ref(props.square.layer);
+const onClick = () => {
+  store.squareClick(props.square);
+};
 
-    return {
-      className,
-      onClick,
-    };
-  },
+watchEffect(() => {
+  className.value = props.square.layer;
 });
 </script>
