@@ -1,6 +1,5 @@
 import { defineNuxtConfig } from 'nuxt/config';
 import vuetify, { transformAssetUrls } from 'vite-plugin-vuetify';
-// import { INITIAL_VIEWPORTS } from '@storybook/addon-viewport';
 
 export default defineNuxtConfig({
   ssr: false,
@@ -23,19 +22,18 @@ export default defineNuxtConfig({
       link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
     },
   },
-  // loading: { color: '#FFFFFF' },
   css: ['~/assets/css/main.scss'],
   build: {
     transpile: ['vuetify'],
   },
   modules: [
+    '@pinia/nuxt',
     (_options, nuxt) => {
       nuxt.hooks.hook('vite:extendConfig', (config) => {
         // @ts-expect-error
         config.plugins.push(vuetify({ autoImport: true }))
       })
     },
-    '@pinia/nuxt',
   ],
   vite: {
     vue: {

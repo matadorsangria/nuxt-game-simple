@@ -1,7 +1,7 @@
 import path from 'path'
 import { mergeConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import vuetify from 'vite-plugin-vuetify'
+import AutoImport from 'unplugin-auto-import/vite'
 import type { StorybookConfig } from '@storybook/vue3-vite'
 
 const config: StorybookConfig = {
@@ -9,12 +9,6 @@ const config: StorybookConfig = {
   stories: ['../stories/**/*.stories.ts'],
   addons: ['@storybook/addon-essentials'],
   viteFinal: (config) => {
-    config.plugins!.push(
-      ...[
-        vue(),
-        vuetify(),
-      ],
-    )
     return mergeConfig(config, {
       resolve: {
         alias: {
@@ -22,6 +16,13 @@ const config: StorybookConfig = {
           '~': path.resolve(__dirname, '../'),
         },
       },
+      plugins: [
+        vue(),
+        AutoImport({
+          imports: ['vue'],
+          dts: '.storybook/auto-imports.d.ts',
+      }),
+      ],
     })
   },
   docs: {

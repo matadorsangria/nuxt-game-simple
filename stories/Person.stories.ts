@@ -16,15 +16,9 @@ const board = [
   },
 ];
 
-const wrapStyle = {
-  position: 'relative',
-  width: `${board[0].width}px`,
-  height: `${board[0].width}px`,
-};
-
 const getPerson = (character: string) => {
   return {
-    id: 1,
+    id: 2,
     name: character,
     x: 1,
     y: 1,
@@ -54,30 +48,33 @@ export default {
 
 export const Pengin = () => ({
   components: { Person },
-  template: `<div :style="wrapStyle"><person :person="person" :board="board"></person></div>`,
-  data: () => ({
-    person: getPerson('pengin'),
-    board,
-    wrapStyle,
-  }),
+  template: `<person :person="person" :board="board"></person>`,
+  setup() {
+    return {
+      person: getPerson('pengin'),
+      board,
+    }
+  },
 });
 
 export const Enemy1 = () => ({
   components: { Person },
-  template: `<div :style="wrapStyle"><person :person="person" :board="board"></person></div>`,
-  data: () => ({
-    person: getPerson('enemy1'),
-    board,
-    wrapStyle,
-  }),
+  template: `<person :person="person" :board="board"></person>`,
+  setup() {
+    return {
+      person: getPerson('enemy1'),
+      board,
+    }
+  },
 });
 
 export const Enemy2 = () => ({
   components: { Person },
-  template: `<div :style="wrapStyle"><person :person="person" :board="board"></person></div>`,
-  data: () => ({
-    person: getPerson('enemy2'),
-    board,
-    wrapStyle,
-  }),
+  template: `<person :person="person" :board="board"></person>`,
+  setup() {
+    return {
+      person: getPerson('enemy2'),
+      board,
+    }
+  },
 });
