@@ -1,4 +1,7 @@
+import type { Meta, StoryObj } from '@storybook/vue3';
 import Person from '../components/molecules/Person.vue';
+
+type Story = StoryObj<typeof Person>
 
 const board = [
   {
@@ -6,7 +9,7 @@ const board = [
     personId: 1,
     x: 1,
     y: 1,
-    direction: 1,
+    direction: 'right',
     width: 160,
     layer: 'current',
     style: {
@@ -16,65 +19,57 @@ const board = [
   },
 ];
 
-const getPerson = (character: string) => {
-  return {
-    id: 2,
-    name: character,
-    x: 1,
-    y: 1,
-    direction: 'right',
-    category: 0,
-    character,
-    classP: character,
-    move: 4,
-    attack: 3,
-    hp: 200,
-    maxhp: 200,
-    power: 4,
-    hover: false,
-    width: 100,
-    styleHP: {
-      width: '100px',
-    },
-    styleSpan: {
-      backgroundSize: '100px 100px',
-    },
-  };
-};
+const getPerson = (character: string) => ({
+  id: 2,
+  name: character,
+  x: 1,
+  y: 1,
+  direction: 'right',
+  category: 0,
+  character,
+  classP: character,
+  move: 4,
+  attack: 3,
+  hp: 200,
+  maxhp: 200,
+  power: 4,
+  hover: false,
+  width: 100,
+  styleHP: {
+    width: '100px',
+  },
+  styleSpan: {
+    backgroundSize: '100px 100px',
+  },
+});
 
 export default {
-  title: 'Person',
+  render: (args) => ({
+    components: { Person },
+    template: '<Person v-bind="args" />',
+    setup() {
+      return { args };
+    },
+  }),
+} as Meta<typeof Person>;
+
+export const Pengin: Story = {
+  args: {
+    person: getPerson('pengin'),
+    board,
+  }
 };
 
-export const Pengin = () => ({
-  components: { Person },
-  template: `<person :person="person" :board="board"></person>`,
-  setup() {
-    return {
-      person: getPerson('pengin'),
-      board,
-    }
-  },
-});
+export const Enemy1: Story = {
+  args: {
+    person: getPerson('enemy1'),
+    board,
+  }
+};
 
-export const Enemy1 = () => ({
-  components: { Person },
-  template: `<person :person="person" :board="board"></person>`,
-  setup() {
-    return {
-      person: getPerson('enemy1'),
-      board,
-    }
-  },
-});
-
-export const Enemy2 = () => ({
-  components: { Person },
-  template: `<person :person="person" :board="board"></person>`,
-  setup() {
-    return {
-      person: getPerson('enemy2'),
-      board,
-    }
-  },
-});
+export const Enemy2: Story = {
+  args: {
+    person: getPerson('enemy2'),
+    board,
+  }
+};

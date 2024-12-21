@@ -11,7 +11,7 @@
             v-for="level in levels"
             :key="level"
             :level="level"
-            @default-overlay-hide="defaultOverlayHide"
+            @click="defaultOverlayHide"
           />
         </p>
         <p class="message">

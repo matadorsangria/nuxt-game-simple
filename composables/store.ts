@@ -275,7 +275,11 @@ export const useStore = defineStore('store', () => {
       p.maxhp = p.hp;
     });
     people.forEach((p: Person) => {
-      state.value.board.filter((s) => s.x === p.x && s.y === p.y)[0].personId = p.id;
+      const squaresWithPerson = state.value.board.filter((s) => s.x === p.x && s.y === p.y);
+      if (squaresWithPerson.length === 0) {
+        return;
+      }
+      squaresWithPerson[0].personId = p.id;
       p.width = personWidth;
       p.class = '';
       p.classP = p.character;
@@ -305,10 +309,16 @@ export const useStore = defineStore('store', () => {
     person.class = 'current';
   };
   const move = (target: Square) => {
+    const p = getPersonFromId(state.value.people, state.value.currentPerson);
+
+    if (!p) {
+      return;
+    }
+
     state.value.board.forEach((s) => {
       s.layer = null;
     });
-    const p = getPersonFromId(state.value.people, state.value.currentPerson);
+
     let phase = state.value.phase;
     if (state.value.currentPerson === state.value.people.length - 1) {
       phase++;
@@ -417,6 +427,11 @@ export const useStore = defineStore('store', () => {
 
     function _attackFocus(state: State) {
       const person = getPersonFromId(state.people, state.currentPerson);
+
+      if (!person) {
+        return;
+      }
+
       const attackArea = getAvailableArr(state, person, 'attack');
       attackFocus(person);
       if (

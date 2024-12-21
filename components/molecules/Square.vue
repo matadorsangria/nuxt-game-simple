@@ -3,17 +3,18 @@
 </template>
 
 <script setup lang="ts">
-import { useStore } from '~/composables/store';
 import type { Square } from 'original';
 
 const props = defineProps<{
   square: Square,
 }>();
+const emit = defineEmits<{
+  (e: 'click', square: Square): void,
+}>();
 
-const store = useStore();
 const className = ref(props.square.layer);
 const onClick = () => {
-  store.squareClick(props.square);
+  emit('click', props.square);
 };
 
 watchEffect(() => {

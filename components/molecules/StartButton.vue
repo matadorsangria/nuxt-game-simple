@@ -11,8 +11,8 @@ import type { Level } from 'original';
 defineProps<{
   level: Level,
 }>();
-const emits = defineEmits<{
-  (e: 'defaultOverlayHide'): void,
+const emit = defineEmits<{
+  (e: 'click'): void,
 }>()
 
 const store = useStore();
@@ -24,7 +24,7 @@ const colorObj = {
 };
 
 const onClick = (level: Level) => {
-  emits('defaultOverlayHide');
+  emit('click');
   store.setPeople(level);
   setTimeout(() => {
     store.setPeople(level);

@@ -6,6 +6,7 @@
         :key="square.id"
         :square="square"
         :style="square.style"
+        @click="onClick"
       />
     </ul>
   </div>
@@ -15,9 +16,18 @@
 import { useStore } from '~/composables/store';
 import type { HtmlHTMLAttributes } from 'vue';
 import Square from '../molecules/Square.vue';
+import type { Square as SquareProps } from '~/types/original';
+
+const emit = defineEmits<{
+  (e: 'click', square: SquareProps): void,
+}>();
 
 const store = useStore();
 const boardStyle = store.state.boardStyle as HtmlHTMLAttributes['style'];
+const onClick = (square: SquareProps) => {
+  emit('click', square);
+  store.squareClick(square);
+}
 </script>
 
 <style scoped lang="scss">
