@@ -3,22 +3,6 @@ import Person from '../components/molecules/Person.vue';
 
 type Story = StoryObj<typeof Person>
 
-const board = [
-  {
-    id: 1,
-    personId: 1,
-    x: 1,
-    y: 1,
-    direction: 'right',
-    width: 160,
-    layer: 'current',
-    style: {
-      width: '160px',
-      height: '160px',
-    },
-  },
-];
-
 const getPerson = (character: string) => ({
   id: 2,
   name: character,
@@ -56,20 +40,17 @@ export default {
 export const Pengin: Story = {
   args: {
     person: getPerson('pengin'),
-    board,
   }
 };
 
 export const Enemy1: Story = {
   args: {
     person: getPerson('enemy1'),
-    board,
   }
 };
 
 export const Enemy2: Story = {
   args: {
     person: getPerson('enemy2'),
-    board,
   }
 };

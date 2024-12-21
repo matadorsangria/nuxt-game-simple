@@ -4,7 +4,6 @@
       v-for="person in store.state.people"
       :key="person.id"
       :person="person"
-      :board="store.state.board"
       :class="person.class"
     />
   </div>

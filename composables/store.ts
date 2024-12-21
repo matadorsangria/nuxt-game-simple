@@ -14,6 +14,7 @@ import type {
 } from 'original';
 
 const boardSize = [5, 4];
+export const squareWidth = 160;
 const personWidth = 100;
 const peopleData = {
   easy: [
@@ -245,7 +246,6 @@ export const useStore = defineStore('store', () => {
     state.value.userId = uid;
   };
   const setBoard = () => {
-    const squareWidth = 160;
     const board = [];
     let counter = 0;
     for (let i = 1; i <= boardSize[1]; i++) {

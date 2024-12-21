@@ -41,18 +41,16 @@
 </template>
 
 <script setup lang="ts">
-import { useStore } from '~/composables/store';
-import type { Person, Board } from 'original';
+import { useStore, squareWidth } from '~/composables/store';
+import type { Person } from 'original';
 
 const props = defineProps<{
   person: Person,
-  board: Board,
 }>();
 
 const store = useStore();
 const isHover = ref(false);
 const calcPosition = (pos: number) => {
-  const squareWidth = props.board[0].width;
   return (
     pos * squareWidth - (squareWidth + props.person.width! - 1) / 2 + 'px'
   );
