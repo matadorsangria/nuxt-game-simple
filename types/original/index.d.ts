@@ -43,7 +43,6 @@ export interface Square {
   name?: string;
   x: number;
   y: number;
-  direction?: string;
   category?: number;
   character?: string;
   move?: number;

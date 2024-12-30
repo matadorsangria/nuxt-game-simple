@@ -357,6 +357,7 @@ export const useStore = defineStore('store', () => {
     });
 
     function attackAsync() {
+      console.log('attackAsync');
       return new Promise(function (resolve) {
         if (action.target !== null) {
           const target = getPersonFromSquare(state.value.people, action.target);
@@ -364,8 +365,10 @@ export const useStore = defineStore('store', () => {
           const _class = _me.attackType === 'fire' ? 'burned' : 'attacked';
           target.hp -= _me.power;
           if (target.x < _me.x) {
+            console.log('left', _me.direction);
             _me.direction = 'left';
           } else if (target.x > _me.x) {
+            console.log('right', _me.direction);
             _me.direction = 'right';
           }
           if (target.hp > 0) {
@@ -400,6 +403,7 @@ export const useStore = defineStore('store', () => {
         _attackFocus(state.value);
       }
     } else if (square.layer === (state.value.turn ? 'us' : 'enemy')) {
+      console.log('fuga');
       attack({ me: state.value.currentPerson, target: square });
       const person = getPersonFromId(state.value.people, state.value.currentPerson);
       const _attackTime = person.attackType === 'fire' ? 1000 : 0;
@@ -439,6 +443,7 @@ export const useStore = defineStore('store', () => {
           (pos) => pos && pos[2] === (state.turn ? 'us' : 'enemy')
         )[0] === undefined
       ) {
+        console.log('hoge');
         attack({ me: state.currentPerson, target: null });
         setTimeout(function () {
           const nextPerson = getPersonFromId(state.people, state.currentPerson);
@@ -446,7 +451,7 @@ export const useStore = defineStore('store', () => {
         }, 200);
       } else if (person.category === 1) {
         setTimeout(function () {
-          const focusedList = document.querySelectorAll('.board li.us');
+          const focusedList = document.querySelectorAll('.board .us');
           const num = Math.floor(focusedList.length * Math.random());
           const $elem = <HTMLElement>focusedList[num];
           $elem.click();
@@ -458,7 +463,7 @@ export const useStore = defineStore('store', () => {
       moveFocus(nextPerson);
       if (nextPerson.category === 1) {
         setTimeout(function () {
-          const focusedList = document.querySelectorAll('.board li.focused');
+          const focusedList = document.querySelectorAll('.board .focused');
           const num = Math.floor(focusedList.length * Math.random());
           const $elem = <HTMLElement>focusedList[num];
           $elem.click();

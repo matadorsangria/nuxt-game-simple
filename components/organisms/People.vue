@@ -1,5 +1,5 @@
 <template>
-  <div id="people" class="people">
+  <div class="people">
     <Person
       v-for="person in store.state.people"
       :key="person.id"

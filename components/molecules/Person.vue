@@ -61,11 +61,11 @@ const styleArticle = reactive({
   top: calcPosition(props.person.y),
 });
 
-const styleP = {
+const styleP = computed(() => ({
   width: props.person.width + 'px',
   height: props.person.width + 'px',
   transform: `rotateY(${props.person.direction === 'right' ? 0 : 180}deg)`,
-};
+}));
 
 const styleIndicator = computed(() => ({
   width: (props.person.hp / props.person!.maxhp!) * 100 + '%',

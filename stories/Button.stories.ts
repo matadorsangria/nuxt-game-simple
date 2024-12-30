@@ -15,7 +15,6 @@ const getState = (level: Level): State => ({
       personId: 1,
       x: 1,
       y: 1,
-      direction: '1',
       width: 160,
       layer: '',
       style: {
